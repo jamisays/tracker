@@ -29,7 +29,21 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
+  # Local Data Storage
+  hive: ^2.0.6
+  path_provider: ^2.0.9
+  # State Management
+  flutter_bloc: ^8.0.1
+  # Service Locator
+  get_it: ^7.2.0
+  # Value equality
+  equatable: ^2.0.3
+  # Formatting
+  intl: ^0.17.0
+  # Form 
+  flutter_form_builder: ^7.0.0
+  # Selection Input
+  awesome_select: ^5.1.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -38,6 +52,9 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  # Hive Dependencies
+  hive_generator: ^1.1.0
+  build_runner: ^2.0.4
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
