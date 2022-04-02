@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:awesome_select/awesome_select.dart';
 import "package:flutter/material.dart";
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -63,11 +65,13 @@ class _EditGoodHabitScreenState extends State<EditGoodHabitScreen> {
                   name: 'habit_title',
                   initialValue: widget.habit.title,
                   keyboardType: TextInputType.name,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     contentPadding: EdgeInsets.all(10),
                     hintText: "Habit Title",
                     alignLabelWithHint: false,
-                    icon: Icon(Icons.near_me),
+                    prefixIcon: Icon(Icons.near_me),
+                    focusedBorder: focusedBorder,
+                    enabledBorder: enabledBorder,
                   ),
                 ),
                 FormBuilderDropdown(
@@ -81,11 +85,13 @@ class _EditGoodHabitScreenState extends State<EditGoodHabitScreen> {
                           value.toString().toLowerCase().substring(0, 3);
                     });
                   },
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     contentPadding: EdgeInsets.all(10),
                     hintText: "Choose Frequency",
                     alignLabelWithHint: false,
-                    icon: Icon(Icons.alarm_add_rounded),
+                    prefixIcon: Icon(Icons.alarm_add_rounded),
+                    focusedBorder: focusedBorder,
+                    enabledBorder: enabledBorder,
                   ),
                 ),
                 buildCustomContent(
@@ -101,22 +107,26 @@ class _EditGoodHabitScreenState extends State<EditGoodHabitScreen> {
                 FormBuilderTextField(
                   name: 'karma_point',
                   keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     contentPadding: EdgeInsets.all(10),
                     hintText: "Karma Point",
                     alignLabelWithHint: false,
-                    icon: Icon(Icons.score),
+                    prefixIcon: Icon(Icons.score),
+                    focusedBorder: focusedBorder,
+                    enabledBorder: enabledBorder,
                   ),
                 ),
                 FormBuilderDropdown(
                   name: 'difficulty_level',
                   items: difficultyDropdownMenuItems,
                   initialValue: widget.habit.difficultyLevel,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     contentPadding: EdgeInsets.all(10),
                     hintText: "Choose Difficulty",
                     alignLabelWithHint: false,
-                    icon: Icon(Icons.hail_rounded),
+                    prefixIcon: Icon(Icons.hail_rounded),
+                    focusedBorder: focusedBorder,
+                    enabledBorder: enabledBorder,
                   ),
                 ),
                 FormBuilderDateTimePicker(
@@ -126,11 +136,13 @@ class _EditGoodHabitScreenState extends State<EditGoodHabitScreen> {
                   firstDate: DateTime.utc(2020),
                   lastDate: DateTime.now(),
                   style: const TextStyle(),
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     contentPadding: EdgeInsets.all(10),
                     hintText: "Select Start Date",
                     alignLabelWithHint: false,
-                    icon: Icon(Icons.date_range),
+                    prefixIcon: Icon(Icons.date_range),
+                    focusedBorder: focusedBorder,
+                    enabledBorder: enabledBorder,
                   ),
                 ),
                 const SizedBox(

@@ -62,33 +62,50 @@ List<FormBuilderFieldOption<String>> days = const [
   FormBuilderFieldOption(value: 'Sunday'),
 ];
 
+final focusedBorder = OutlineInputBorder(
+  borderRadius: BorderRadius.circular(10),
+  borderSide: const BorderSide(
+    color: Colors.grey,
+  ),
+);
+
+final enabledBorder = OutlineInputBorder(
+  borderRadius: BorderRadius.circular(10),
+  borderSide: const BorderSide(
+    color: Colors.grey,
+  ),
+);
+
 Widget buildScheduleContent(String? timesDay) {
   return Padding(
     padding: const EdgeInsets.only(
       left: 7.5,
       right: 7.5,
     ),
-    child: Row(
-      children: [
-        const Text(
-          'I will do this  ',
-          style: TextStyle(
-            fontSize: 15,
-          ),
-        ),
-        SizedBox(
-          width: 30,
-          child: FormBuilderTextField(
-            name: 'times_day',
-            initialValue: timesDay,
-            keyboardType: TextInputType.number,
-            style: const TextStyle(
+    child: Padding(
+      padding: const EdgeInsets.only(left: 20, right: 20),
+      child: Row(
+        children: [
+          const Text(
+            'I will do this  ',
+            style: TextStyle(
               fontSize: 15,
             ),
           ),
-        ),
-        const Text('  times per day'),
-      ],
+          SizedBox(
+            width: 30,
+            child: FormBuilderTextField(
+              name: 'times_day',
+              initialValue: timesDay,
+              keyboardType: TextInputType.number,
+              style: const TextStyle(
+                fontSize: 15,
+              ),
+            ),
+          ),
+          const Text('  times per day'),
+        ],
+      ),
     ),
   );
 }

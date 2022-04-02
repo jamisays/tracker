@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:tracker/features/bad_habit/ui/screens/new_bad_habit_screen.dart';
+import 'package:tracker/features/bad_habit/ui/widgets/bad_habit_list.dart';
 import 'package:tracker/features/good_habit/ui/widgets/good_habit_list.dart';
-import 'package:tracker/features/good_habit/ui/screens/new_good_habit_screen.dart';
-import 'package:tracker/ui/test_screen.dart';
+// import 'package:tracker/features/good_habit/ui/screens/new_good_habit_screen.dart';
 
 class MyHabitsScreen extends StatelessWidget {
   const MyHabitsScreen({Key? key}) : super(key: key);
@@ -27,13 +28,13 @@ class MyHabitsScreen extends StatelessWidget {
         ),
         body: const TabBarView(children: [
           GoodHabitList(),
-          TestScreen(),
+          BadHabitList(),
         ]),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: FloatingActionButton(
           child: const Icon(Icons.add),
           onPressed: () =>
-              Navigator.pushNamed(context, NewGoodHabitScreen.routeName),
+              Navigator.pushNamed(context, NewBadHabitScreen.routeName),
         ),
       ),
     );

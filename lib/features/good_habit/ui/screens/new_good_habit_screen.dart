@@ -22,7 +22,7 @@ class _NewGoodHabitScreenState extends State<NewGoodHabitScreen> {
   var isLoading = false;
   bool _selectAllDaysCheckboxValue = false;
   String _selectedScheduleType = 'fix';
-  List<String>? newHabitDays = [];
+  List<String>? newHabitDays;
 
   Widget selectAllDays() {
     return Checkbox(
@@ -61,13 +61,18 @@ class _NewGoodHabitScreenState extends State<NewGoodHabitScreen> {
                 FormBuilderTextField(
                   name: 'habit_title',
                   keyboardType: TextInputType.name,
-                  decoration: const InputDecoration(
-                    contentPadding: EdgeInsets.all(10),
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.grey.shade300,
+                    contentPadding: EdgeInsets.all(size.height * .02),
                     hintText: "Habit Title",
                     alignLabelWithHint: false,
-                    icon: Icon(Icons.near_me),
+                    prefixIcon: const Icon(Icons.near_me),
+                    focusedBorder: focusedBorder,
+                    enabledBorder: enabledBorder,
                   ),
                 ),
+                const SizedBox(height: 3),
                 FormBuilderDropdown(
                   name: 'scheduleType',
                   items: scheduleDropdownItems2,
@@ -78,55 +83,77 @@ class _NewGoodHabitScreenState extends State<NewGoodHabitScreen> {
                           value.toString().toLowerCase().substring(0, 3);
                     });
                   },
-                  decoration: const InputDecoration(
-                    contentPadding: EdgeInsets.all(10),
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.grey.shade300,
+                    contentPadding: const EdgeInsets.all(10),
                     hintText: "Choose Frequency",
                     alignLabelWithHint: false,
-                    icon: Icon(Icons.alarm_add_rounded),
+                    prefixIcon: const Icon(Icons.alarm_add_rounded),
+                    focusedBorder: focusedBorder,
+                    enabledBorder: enabledBorder,
                   ),
                 ),
-                buildCustomContent(
-                  edit: false,
-                  size: size,
-                  selectedScheduleType: _selectedScheduleType,
-                  habitDays: newHabitDays,
-                  flexDays: null,
-                  flexPerTime: timesPerOptions[0],
-                  repDays: null,
+                Padding(
+                  padding: const EdgeInsets.only(left: 12, right: 12),
+                  child: buildCustomContent(
+                    edit: false,
+                    size: size,
+                    selectedScheduleType: _selectedScheduleType,
+                    habitDays: newHabitDays,
+                    flexDays: null,
+                    flexPerTime: timesPerOptions[0],
+                    repDays: null,
+                  ),
                 ),
                 buildScheduleContent(null),
+                const SizedBox(height: 3),
                 FormBuilderTextField(
                   name: 'karma_point',
                   keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
-                    contentPadding: EdgeInsets.all(10),
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.grey.shade300,
+                    contentPadding: const EdgeInsets.all(10),
                     hintText: "Karma Point",
                     alignLabelWithHint: false,
-                    icon: Icon(Icons.score),
+                    prefixIcon: const Icon(Icons.score),
+                    focusedBorder: focusedBorder,
+                    enabledBorder: enabledBorder,
                   ),
                 ),
+                const SizedBox(height: 3),
                 FormBuilderDropdown(
                   name: 'difficulty_level',
                   items: difficultyDropdownMenuItems,
                   dropdownColor: Colors.lightBlue[100],
                   initialValue: difficultyMenuItems[0],
-                  decoration: const InputDecoration(
-                    contentPadding: EdgeInsets.all(10),
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.grey.shade300,
+                    contentPadding: const EdgeInsets.all(10),
                     hintText: "Choose Difficulty",
                     alignLabelWithHint: false,
-                    icon: Icon(Icons.hail_rounded),
+                    prefixIcon: const Icon(Icons.hail_rounded),
+                    focusedBorder: focusedBorder,
+                    enabledBorder: enabledBorder,
                   ),
                 ),
+                const SizedBox(height: 3),
                 FormBuilderDateTimePicker(
                   name: 'start_date',
                   keyboardType: TextInputType.datetime,
                   firstDate: DateTime.utc(2020),
                   lastDate: DateTime.now(),
-                  decoration: const InputDecoration(
-                    contentPadding: EdgeInsets.all(10),
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.grey.shade300,
+                    contentPadding: const EdgeInsets.all(10),
                     hintText: "Select Start Date",
                     alignLabelWithHint: false,
-                    icon: Icon(Icons.date_range),
+                    prefixIcon: const Icon(Icons.date_range),
+                    focusedBorder: focusedBorder,
+                    enabledBorder: enabledBorder,
                   ),
                 ),
                 const SizedBox(
