@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 
+// ignore: must_be_immutable
 class BadHabit extends Equatable {
   final String id;
   final String? category;
@@ -15,9 +16,9 @@ class BadHabit extends Equatable {
   final int? costPerTime;
   final List<DateTime>? relapsedDaysList;
   final Map<DateTime, String>? relapsedReasons;
-  final DateTime? lastDate;
+  DateTime? lastDate;
 
-  const BadHabit({
+  BadHabit({
     required this.id,
     this.category,
     required this.title,

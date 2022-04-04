@@ -4,8 +4,11 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 import 'package:flutter_heatmap_calendar/flutter_heatmap_calendar.dart';
 import 'package:tracker/features/bad_habit/data/models/bad_habit_model.dart';
+import 'package:tracker/features/bad_habit/ui/logic/bad_habit/bad_habit_cubit.dart';
 import 'package:tracker/features/bad_habit/ui/logic/timer_stream/timer_stream_cubit.dart';
 import 'package:tracker/features/bad_habit/ui/widgets/record_card.dart';
+import 'package:tracker/features/bad_habit/ui/widgets/relapse_reason_dialog.dart';
+import 'package:tracker/utils/bad_habit_utils.dart';
 
 class BadHabitDetailsScreen extends StatefulWidget {
   static const routeName = '/bad-habit-details-screen';
@@ -20,7 +23,6 @@ class BadHabitDetailsScreen extends StatefulWidget {
 
 class _BadHabitDetailsScreenState extends State<BadHabitDetailsScreen> {
   // late StopWatchTimer stopwatchStream;
-  final relapseReasonController = TextEditingController();
 
   final _isHours = true;
 
@@ -28,10 +30,6 @@ class _BadHabitDetailsScreenState extends State<BadHabitDetailsScreen> {
   late String second;
   late int hour;
   late int day;
-
-  DateTime removeTime(DateTime dateTime) {
-    return DateTime(dateTime.year, dateTime.month, dateTime.day);
-  }
 
   void setTime(String stream) {
     var list = stream.split(":");
@@ -42,74 +40,13 @@ class _BadHabitDetailsScreenState extends State<BadHabitDetailsScreen> {
     second = list[2].substring(0, 2);
   }
 
-  Map<DateTime, int> heatMap = {};
-
-  int findNextDayIndex(int x, BadHabitModel habit) {
-    if (x == habit.relapsedDaysList!.length - 1) return x;
-    if (x < habit.relapsedDaysList!.length) {
-      while (habit.relapsedDaysList![x].day ==
-          habit.relapsedDaysList![x + 1].day) {
-        x++;
-        if (x == habit.relapsedDaysList!.length - 1) return x;
-      }
-    }
-    x++;
-    return x;
-  }
-
-  void setHeatMap(BadHabitModel habit) {
-    var length = DateTime.now().difference(habit.createDate).inDays;
-
-    int j = 0;
-    var jLength = habit.relapsedDaysList!.length;
-    for (int i = 0; i <= length; i++) {
-      var date = habit.createDate.add(Duration(days: i));
-      bool perfectDay = true;
-
-      date = removeTime(date);
-      if (habit.relapsedDaysList!.isNotEmpty) {
-        if (j < jLength) {
-          if (removeTime(habit.relapsedDaysList![j]) == date) {
-            heatMap[date] = 1;
-            perfectDay = false;
-            j = findNextDayIndex(j, habit);
-          }
-        }
-      }
-      if (perfectDay) heatMap[date] = 7;
-    }
-  }
-
-  // Future<String?> _showBadHabitRelapseReasonDialog(BuildContext context) async {
-  //   return await showDialog<String>(
-  //     context: context,
-  //     barrierDismissible: true,
-  //     builder: (ctx) {
-  //       return AlertDialog(
-  //         title: const Text('What made you relapse?'),
-  //         content: Card(
-  //           child: TextField(
-  //             controller: relapseReasonController,
-  //           ),
-  //         ),
-  //         actions: <Widget>[
-  //           TextButton(
-  //             child: const Text('Reset'),
-  //             onPressed: () {
-  //               Navigator.pop(ctx, relapseReasonController.value.text);
-  //               relapseReasonController.clear();
-  //             },
-  //           ),
-  //         ],
-  //       );
-  //     },
-  //   );
-  // }
+  Map<DateTime, int>? heatMap = {};
 
   @override
   void initState() {
     super.initState();
     dispatchGetStopwatchStream();
+    heatMap = setHeatMap(widget.habitData);
   }
 
   @override
@@ -121,12 +58,6 @@ class _BadHabitDetailsScreenState extends State<BadHabitDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    // stopwatchStream =
-    //     Provider.of<Streams>(context).stopwatchStreamList[widget.habitData.id]!;
-
-    // stopwatchStream.secondTime.listen((value) {
-    //   print('secondTime $value');
-    // });
     // print(stopwatchStream.isRunning);
     return Scaffold(
       appBar: AppBar(
@@ -137,38 +68,16 @@ class _BadHabitDetailsScreenState extends State<BadHabitDetailsScreen> {
               const PopupMenuItem(
                 child: Text('Edit'),
                 value: '/edit_bad_habit',
-                // onTap: () {
-                //   Navigator.of(context).pushNamed(
-                //     EditBadHabitScreen.routeName,
-                //     arguments: habitId,
-                //   );
-                //   print('Edit menu');
-                // },
               ),
-              // PopupMenuItem(
-              //   child: Text('Reset'),
-              //   onTap: () {
-              //     var badRelapseTime = DateTime.now();
-              //     _showBadHabitRelapseReasonDialog(context).then((value) {
-              //       print(value);
-              //       habits.badRelapsed(habitId, badRelapseTime, value);
-              //     });
-              //   },
-              // ),
               const PopupMenuItem(
                 child: Text('History'),
                 value: '/bad_habit_relapse_history',
-                // onTap: () {
-                //   habits.badItems.forEach((element) {
-                //     print(element.relapsedReasons.entries);
-                //   });
-                // },
               ),
             ],
             onSelected: (value) {
               Navigator.of(context).pushNamed(
                 value.toString(),
-                arguments: widget.habitData.id,
+                arguments: widget.habitData,
               );
             },
           ),
@@ -314,11 +223,14 @@ class _BadHabitDetailsScreenState extends State<BadHabitDetailsScreen> {
                     MaterialStateProperty.all<Color>(Colors.red.shade400),
               ),
               onPressed: () {
-                // var badRelapseTime = DateTime.now();
-                // _showBadHabitRelapseReasonDialog(context).then((value) {
-                //   habits.badRelapsed(habitId, badRelapseTime, value);
-                //   // Navigator.pop(context);
-                // });
+                var badRelapseTime = DateTime.now();
+                ShowAlertDialog(context)
+                    .showBadHabitRelapseReasonDialog(context)
+                    .then((value) {
+                  dispatchBadHabitRelapsed(
+                      widget.habitData.id, badRelapseTime, value);
+                  // Navigator.pop(context);
+                });
               },
             ),
           ],
@@ -329,10 +241,15 @@ class _BadHabitDetailsScreenState extends State<BadHabitDetailsScreen> {
 
   dispatchGetStopwatchStream() {
     BlocProvider.of<TimerStreamCubit>(context)
-        .cGetStopwatchStreamValue(widget.habitData.id)!;
+        .cGetStopwatchStreamValue(widget.habitData.id);
   }
 
   dispatchDisposeStopwatchStream(String id) {
     BlocProvider.of<TimerStreamCubit>(context).cDisposeBadItemStream(id);
+  }
+
+  dispatchBadHabitRelapsed(String key, DateTime time, String? reason) {
+    BlocProvider.of<BadHabitCubit>(context)
+        .cBadHabitRelapsed(key, time, reason);
   }
 }

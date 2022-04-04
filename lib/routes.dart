@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tracker/core/error/error_screen.dart';
+import 'package:tracker/features/bad_habit/ui/screens/bad_habit_relapse_history_screen.dart';
 import 'package:tracker/ui/screens/tabs_screen.dart';
 // good habits
 import 'package:tracker/features/good_habit/data/models/good_habit_model.dart';
@@ -20,6 +21,7 @@ const String editGoodHabit = '/edit_good_habit';
 const String newBadHabit = '/new_bad_habit';
 const String badHabitDetailScreen = '/bad-habit-details-screen';
 const String editBadHabit = '/edit_bad_habit';
+const String badHabitRelapseHistory = '/bad_habit_relapse_history';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -67,6 +69,15 @@ class RouteGenerator {
           ),
         );
 
+      case badHabitRelapseHistory:
+        final args = settings.arguments as BadHabitModel;
+        return MaterialPageRoute(
+          builder: (_) => BadHabitRelapseHistoryScreen(
+            habit: args,
+          ),
+        );
+
+      //! Default
       default:
         return MaterialPageRoute(
           builder: (_) => const ErrorScreen(

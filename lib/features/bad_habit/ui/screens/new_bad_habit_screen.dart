@@ -180,6 +180,8 @@ class _NewBadHabitScreenState extends State<NewBadHabitScreen> {
       timesType: enteredDoneFrequency,
       timesDay: enteredTimesDay,
       costPerTime: enteredCostPerTime,
+      relapsedDaysList: [],
+      relapsedReasons: {},
       isActive: true,
     );
 

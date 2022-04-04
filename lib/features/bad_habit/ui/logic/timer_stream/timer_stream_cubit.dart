@@ -13,7 +13,7 @@ class TimerStreamCubit extends Cubit<TimerStreamState> {
     stopwatchStreamList[id] = itemStopwatch;
   }
 
-  cGetStopwatchStreamValue(String id) {
+  StopWatchTimer cGetStopwatchStreamValue(String id) {
     emit(LoadingTimerStream());
     final stream = stopwatchStreamList[id];
     emit(LoadedTimerStream(stopwatchStream: stream!));

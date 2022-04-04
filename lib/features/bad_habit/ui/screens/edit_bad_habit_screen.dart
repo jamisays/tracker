@@ -180,20 +180,31 @@ class _EditBadHabitScreenState extends State<EditBadHabitScreen> {
         _formKeyEditBad.currentState!.value['cost_per_time'].toString());
     final enteredDifficultyLevel =
         _formKeyEditBad.currentState!.fields['difficulty_level']!.value;
-    final enteredStartDate =
+    final enteredCreateDate =
         _formKeyEditBad.currentState!.fields['start_date']!.value as DateTime;
+
+    List<DateTime>? relapsedDaysList = widget.habit.relapsedDaysList;
+    Map<DateTime, String>? relapsedReasons = widget.habit.relapsedReasons;
+
+    //? If Start Date is aheaden
+    if (enteredCreateDate.isAfter(widget.habit.createDate)) {
+      relapsedDaysList = [];
+      relapsedReasons = {};
+    }
 
     List<String> enteredReasonList = [];
 
     final badHabit = BadHabitModel(
-      id: enteredStartDate.toString(),
+      id: widget.habit.id,
       title: enteredTitle,
-      createDate: enteredStartDate,
+      createDate: enteredCreateDate,
       reasons: enteredReasonList,
       difficultyLevel: enteredDifficultyLevel,
       timesType: enteredDoneFrequency,
       timesDay: enteredTimesDay,
       costPerTime: enteredCostPerTime,
+      relapsedDaysList: relapsedDaysList,
+      relapsedReasons: relapsedReasons,
       isActive: true,
     );
 

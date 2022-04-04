@@ -5,4 +5,5 @@ abstract class BadHabitRepository {
   Future<List<BadHabitModel>> getBadHabits();
   void updateBadHabit(String key, BadHabitModel badhabit);
   Future<void> deleteBadHabit(String key);
+  void badHabitRelapsed(String key, DateTime time, String? reason);
 }

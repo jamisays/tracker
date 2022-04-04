@@ -27,6 +27,8 @@ import 'package:tracker/features/bad_habit/domain/usecases/add_bad_habit.dart';
 import 'package:tracker/features/bad_habit/domain/usecases/delete_bad_habit.dart';
 import 'package:tracker/features/bad_habit/domain/usecases/get_bad_habits.dart';
 import 'package:tracker/features/bad_habit/domain/usecases/update_bad_habits.dart';
+import 'package:tracker/features/bad_habit/data/data_service/bad_habit_relapsed_data_service.dart';
+import 'package:tracker/features/bad_habit/domain/usecases/bad_habit_relapsed.dart';
 
 final injection = GetIt.instance;
 
@@ -50,6 +52,7 @@ void initializeInjection() {
       addBadHabit: injection(),
       updateBadHabit: injection(),
       deleteBadHabit: injection(),
+      badHabitRelapsed: injection(),
     ),
   );
 
@@ -67,6 +70,7 @@ void initializeInjection() {
   injection.registerLazySingleton(() => AddBadHabit(injection()));
   injection.registerLazySingleton(() => UpdateBadHabit(injection()));
   injection.registerLazySingleton(() => DeleteBadHabit(injection()));
+  injection.registerLazySingleton(() => BadHabitRelapsed(injection()));
 
   //! Repository
   // Good Habits
@@ -86,6 +90,7 @@ void initializeInjection() {
       getBadHabitsDataService: injection(),
       updateHabitDataService: injection(),
       deleteHabitDataService: injection(),
+      badHabitRelapsedDataService: injection(),
     ),
   );
 
@@ -111,6 +116,8 @@ void initializeInjection() {
       () => UpdateBadHabitDataServiceImpl());
   injection.registerLazySingleton<DeleteBadHabitDataService>(
       () => DeleteBadHabitDataServiceImpl());
+  injection.registerLazySingleton<BadHabitRelapsedDataService>(
+      () => BadHabitRelapsedDataServiceImpl());
 
   //! Core
 

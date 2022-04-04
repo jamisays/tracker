@@ -5,6 +5,7 @@ import 'package:tracker/features/bad_habit/domain/entities/bad_habit.dart';
 part 'bad_habit_model.g.dart';
 
 @HiveType(typeId: 1)
+// ignore: must_be_immutable
 class BadHabitModel implements BadHabit {
   @override
   @HiveField(0)
@@ -50,7 +51,7 @@ class BadHabitModel implements BadHabit {
   final Map<DateTime, String>? relapsedReasons;
   @override
   @HiveField(14)
-  final DateTime? lastDate;
+  DateTime? lastDate;
 
   BadHabitModel({
     required this.id,
